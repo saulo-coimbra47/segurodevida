@@ -1,0 +1,27 @@
+.content {
+    overflow-y: scroll;
+}
+.container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 75%;
+    margin: 0 auto;
+    top: 5%;
+    z-index: 2;
+}
+
+ion-slides {
+    margin-top: 20vh;
+    height: 100%;
+}
+
+.cadastro {
+    height: 150%; 
+    
+}
+
+ion-item {
+    border-radius: 10px;
+    margin-bottom: 2vh;
+}
