@@ -1,0 +1,72 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Início
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form>
+    <div class="text-label">
+      <h1>Solicitação de entrega</h1>
+    </div>
+    
+    <div class="form-list">
+      <ion-item>
+        <ion-input type="text" required placeholder="Conteúdo"></ion-input>
+      </ion-item>
+  
+      <ion-item>
+        <ion-input type="text" required placeholder="Nome do recebedor"></ion-input>
+      </ion-item>
+  
+      
+      <div class="local">
+        <div class="local-label">
+          <h4>Local de retirada</h4>
+        </div>
+        
+        <div class="local-group">
+          <ion-item >
+            <ion-input placeholder="Rua, Nº"></ion-input>
+          </ion-item>
+          <ion-item >
+            <ion-input placeholder="Bairro"></ion-input>
+          </ion-item>
+          <ion-item >
+            <ion-input placeholder="Cidade"></ion-input>
+          </ion-item>
+        </div>        
+      </div>
+      <div class="local">
+        <div class="local-label">
+          <h4>Local de entrega</h4>
+        </div>
+        
+        <div class="local-group">
+          <ion-item >
+            <ion-input placeholder="Rua, Nº"></ion-input>
+          </ion-item>
+          <ion-item >
+            <ion-input placeholder="Bairro"></ion-input>
+          </ion-item>
+          <ion-item >
+            <ion-input placeholder="Cidade"></ion-input>
+          </ion-item>
+        </div>        
+      </div>
+    
+      
+    </div>
+   
+
+    <ion-row>
+      <ion-col>
+        <ion-button type="submit" expand="block">Solicitar</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+
+  
+</ion-content>

@@ -6,6 +6,14 @@ const routes: Routes = [
   {
     path: 'recuperecao',
     loadChildren: () => import('./pages/recuperecao/recuperecao.module').then( m => m.RecuperecaoPageModule)
+  },
+  {
+    path: 'main',
+    loadChildren: () => import('./main/main.module').then( m => m.MainPageModule)
+  },
+  {
+    path: 'main-entregador',
+    loadChildren: () => import('./main-entregador/main-entregador.module').then( m => m.MainEntregadorPageModule)
   }
 ];
 

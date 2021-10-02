@@ -26,4 +26,12 @@ export class ApiService {
     return this.http.post(`${this.api}login-deliverer`, dados);
   }
 
+  RecuperacaoSenhaCliente(dados){
+    return this.http.post(`${this.api}forget-client`, dados);
+  }
+
+  RecuperacaoSenhaEntregador(dados){
+    return this.http.post(`${this.api}forget-deliverer`, dados);
+  }
+
 }

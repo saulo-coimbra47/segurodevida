@@ -25,6 +25,7 @@ export class StartPage implements OnInit {
   modelo: string;
   placa: string;
   cor: string;
+  mensagem: any = "A";
   Dados: any = {};
 
 
@@ -56,7 +57,14 @@ export class StartPage implements OnInit {
         state: 'estado'
       }
       this.apiService.RegistraEntregador(this.Dados).subscribe(data => {
-        console.log(data);
+        /*this.mensagem = data;
+        if(this.mensagem === true){
+          return this.mensagem.message;
+        }
+        else{
+          return this.mensagem.errors;
+        }*/
+
       });
     } else {
       this.Dados = {
@@ -92,6 +100,7 @@ export class StartPage implements OnInit {
     }else{
       this.apiService.LoginCliente(this.Dados).subscribe(data => {
         console.log(data);
+        this.gotoMain();
       });
     }
     
@@ -110,6 +119,10 @@ export class StartPage implements OnInit {
 
   gotoRecuperacao() {
     this.navCtrl.navigateForward('recuperecao');
+  }
+
+  gotoMain(){
+    this.navCtrl.navigateForward('main');
   }
 
   MaskCPF() {

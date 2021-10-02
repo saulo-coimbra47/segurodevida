@@ -1,0 +1,25 @@
+ion-header{
+    text-align: center;
+}
+
+ion-content form .text-label{
+    display: flex;
+    justify-content: center;
+}
+
+ion-content form .form-list{
+
+    display: flex;
+    flex-direction: column;
+}
+
+.local-label{
+    display: flex;
+    justify-content: center;
+}
+
+.local-group{
+    display: flex;
+    flex-direction: column;
+
+}
