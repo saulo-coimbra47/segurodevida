@@ -41,7 +41,7 @@ export class StartPage implements OnInit {
   falhaCadastro: boolean = false;
   msgCadastro: string;
   slidevalue: string = 'cadastro';
-  Bearer_token: { };
+  Bearer: { };
 
 
   constructor(private alertCtrl: AlertController, private navCtrl: NavController, private apiService: ApiService, private toastCtrl: ToastController) { }
@@ -165,17 +165,14 @@ export class StartPage implements OnInit {
     }
     if (this.entregador_login) {
       this.apiService.LoginEntregador(this.Dados).then((result) => {
-        console.log(result);
-        this.dadosUsuario = {
-          Bearer_token: result['Bearer_token']
-        }
-        this.Bearer_token = {
-          Bearer_token: result['Bearer_token']
-        }
-        localStorage.setItem('dadosUsuario', JSON.stringify(this.dadosUsuario));
-        localStorage.setItem('Bearer_token', JSON.stringify(this.Bearer_token));
 
-        this.gotoMainEntregador();
+        this.apiService.DelivererDashboard(result['Bearer_token']).then((result) =>{
+          console.log(result);
+        }).catch((erro) =>{
+          console.log(erro);
+        })
+
+        // this.gotoMainEntregador();
       }).catch((erro) => {
         console.log(erro['error']);
         this.msgLogin = erro['error'].message;
@@ -183,15 +180,10 @@ export class StartPage implements OnInit {
       })
     } else {
       this.apiService.LoginCliente(this.Dados).then((result) => {
-        if (result['message'] = "Usuário logado com sucesso.") {
-
-          this.Bearer_token = {
-            Bearer_token: result['Bearer_token']
-          }
-
-          localStorage.setItem('Authorization ', JSON.stringify(this.Bearer_token));
-
-          this.apiService.ClientDashboard().then((result) =>{
+        
+        console.log(result['Bearer_token']);
+          
+          this.apiService.ClientDashboard(result['Bearer_token']).then((result) =>{
             console.log(result);
           }).catch((erro) =>{
             console.log(erro);
@@ -200,7 +192,7 @@ export class StartPage implements OnInit {
           // console.log(result);
 
           
-        }
+        
       }).catch((erro) => {
         console.log(erro['error']);
         this.msgLogin = erro['error'].message;

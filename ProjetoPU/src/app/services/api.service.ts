@@ -1,3 +1,4 @@
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -7,10 +8,8 @@ import { Injectable } from '@angular/core';
 export class ApiService {
 
   private api : string = "http://127.0.0.1:8000/api/";
-  
 
-
-  constructor(private http : HttpClient, private headers: HttpHeaders) { }
+  constructor(private http : HttpClient) { }
 
   
 
@@ -38,9 +37,20 @@ export class ApiService {
     return this.http.post(`${this.api}forget-deliverer`, dados).toPromise();
   }
 
-  ClientDashboard(){
-    this.headers.append('Authorization','Bearer '+ localStorage.getItem('Bearer_token'));
-    return this.http.get(`${this.api}client-dashboard`, {headers: this.headers}).toPromise();
+  ClientDashboard(dados){
+    // ('Authorization','Bearer '+ localStorage.getItem('Bearer_token'));
+    let token = 'Bearer '+ dados;
+    let headers = new HttpHeaders({'Authorization' : token});
+
+    return this.http.get(`${this.api}client-dashboard`, {headers : headers }).toPromise();
+  }
+
+  DelivererDashboard(dados){
+    // ('Authorization','Bearer '+ localStorage.getItem('Bearer_token'));
+    let token = 'Bearer '+ dados;
+    let headers = new HttpHeaders({'Authorization' : token});
+
+    return this.http.get(`${this.api}deliverer-dashboard`, {headers : headers }).toPromise();
   }
 
 }
