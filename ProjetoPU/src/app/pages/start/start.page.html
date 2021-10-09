@@ -2,7 +2,7 @@
 
   <div class="content">
     <div class="container top">
-      <ion-segment scrollable (ionChange)="segmentChanged($event)" value="cadastro">
+      <ion-segment scrollable (ionChange)="segmentChanged($event)" value="{{slidevalue}}">
         <ion-segment-button value="cadastro">
           <ion-label>Cadastro</ion-label>
         </ion-segment-button>
@@ -19,73 +19,81 @@
           <ion-card-header>
             <ion-card-title>Cadastro</ion-card-title>
             <ion-card-subtitle>Insira seus dados</ion-card-subtitle>
+            <br>
+              <ion-item *ngIf="falhaCadastro" color="danger">
+                {{msgCadastro}}
+              </ion-item>
           </ion-card-header>
           <ion-card-content>
-              <ion-item>
-                <ion-label position="floating">E-mail</ion-label>
-                <ion-input name="email"  [(ngModel)]="emailCadastro"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-label position="floating">Senha</ion-label>
-                <ion-input name="password" type="password"  [(ngModel)]="senhaCadastro"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-label position="floating">Confirme a sua senha</ion-label>
-                <ion-input name="confirmPassword" type="password"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-label position="floating">Nome completo</ion-label>
-                <ion-input name="name"  [(ngModel)]="nome"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-label position="floating">CPF</ion-label>
-                <ion-input type="text" name="cpf"  (keyup)="validaCPF()" (ionChange)="MaskCPF()" [(ngModel)]="cpf" maxlength="14"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-label position="floating">Telefone</ion-label>
-                <ion-input type="text" name="telefone" (keyup)="validaTelefone()" (ionChange)="MaskTel()" [(ngModel)]="telefone" maxlength="15"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-label position="floating">Cidade e UF</ion-label>
-                <ion-input name="city" placeholder="Cidade-UF"  [(ngModel)]="cidadeUF"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-label position="floating">Endereço</ion-label>
-                <ion-input name="address" placeholder="Rua, Nº, Bairro"  [(ngModel)]="endereco"></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-label>Quero ser entregador</ion-label>
-                <ion-toggle [(ngModel)]="entregador"></ion-toggle>
-              </ion-item>
+            <ion-item>
+              <ion-label position="floating">E-mail</ion-label>
+              <ion-input name="email" [(ngModel)]="emailCadastro"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Senha</ion-label>
+              <ion-input name="password" type="password" [(ngModel)]="senhaCadastro"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Confirme a sua senha</ion-label>
+              <ion-input name="confirmPassword" type="password" (ionBlur)="validaSenha()" [(ngModel)]="confirmasenhaCadastro"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Nome completo</ion-label>
+              <ion-input name="name" [(ngModel)]="nome"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">CPF</ion-label>
+              <ion-input type="text" name="cpf" (keyup)="validaCPF()" (ionChange)="MaskCPF()" [(ngModel)]="cpf"
+                maxlength="14"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Telefone</ion-label>
+              <ion-input type="text" name="telefone" (ionBlur)="validaTelefone2()" (keyup)="validaTelefone()" (ionChange)="MaskTel()"
+                [(ngModel)]="telefone" maxlength="15"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Cidade e UF</ion-label>
+              <ion-input name="city" placeholder="Cidade-UF" [(ngModel)]="cidadeUF"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Endereço</ion-label>
+              <ion-input name="address" placeholder="Rua, Nº, Bairro" [(ngModel)]="endereco"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label>Quero ser entregador</ion-label>
+              <ion-toggle [(ngModel)]="entregador"></ion-toggle>
+            </ion-item>
 
-              <ion-item *ngIf="entregador">
-                <ion-label position="floating">Modelo do veículo</ion-label>
-                <ion-input name="modelo"  [(ngModel)]="modelo"></ion-input>
-              </ion-item>
+            <ion-item *ngIf="entregador">
+              <ion-label position="floating">Modelo do veículo</ion-label>
+              <ion-input name="modelo" [(ngModel)]="modelo"></ion-input>
+            </ion-item>
 
-              <ion-item *ngIf="entregador">
-                <ion-label position="floating">Placa do veículo</ion-label>
-                <ion-input name="placa" [(ngModel)]="placa"></ion-input>
-              </ion-item>
+            <ion-item *ngIf="entregador">
+              <ion-label position="floating">Placa do veículo</ion-label>
+              <ion-input name="placa" [(ngModel)]="placa" maxlength="8"></ion-input>
+            </ion-item>
 
-              <ion-item *ngIf="entregador">
-                <ion-label position="floating">Cor do veículo</ion-label>
-                <ion-input name="cor"  [(ngModel)]="cor"></ion-input>
-              </ion-item>
+            <ion-item *ngIf="entregador">
+              <ion-label position="floating">Cor do veículo</ion-label>
+              <ion-input name="cor" [(ngModel)]="cor"></ion-input>
+            </ion-item>
 
-              <ion-item *ngIf="entregador">
-                <ion-label position="stacked">Foto da CNH (frente e verso)</ion-label>
-                <ion-input name="cnh" type="file"></ion-input>
-              </ion-item>
+            <ion-item *ngIf="entregador">
+              <ion-label position="stacked">Foto da CNH</ion-label>
+              <ion-button  size="small">abrir galeria</ion-button>
+              <ion-button  size="small">abrir câmera</ion-button>
+            </ion-item>
 
-              <ion-item *ngIf="entregador">
-                <ion-label position="stacked">Foto do domumento do veículo (frente e verso)</ion-label>
-                <ion-input name="cnh" type="file"></ion-input>
-              </ion-item>
+            <ion-item *ngIf="entregador">
+              <ion-label position="stacked">Foto do domumento do veículo</ion-label>
+              <ion-button size="small">abrir galeria</ion-button>
+              <ion-button size="small">abrir câmera</ion-button>
+            </ion-item>
 
-              <ion-button expand="block" color="dark" fill="outline" (click)="Registra()">Cadastrar</ion-button>
+            <ion-button expand="block" color="dark" fill="outline" (click)="Registra()">Cadastrar</ion-button>
 
-            
+
 
           </ion-card-content>
 
@@ -97,14 +105,18 @@
           <ion-card-header>
             <ion-card-title>Login</ion-card-title>
             <ion-card-subtitle>Informe seus dados</ion-card-subtitle>
+            <br>
+              <ion-item *ngIf="falhaLogin" color="danger">
+                {{msgLogin}}
+              </ion-item>
           </ion-card-header>
           <ion-card-content>
             <ion-item>
-              <ion-label position="floating" >E-mail</ion-label>
+              <ion-label position="floating">E-mail</ion-label>
               <ion-input name="email" [(ngModel)]="emailLogin"></ion-input>
             </ion-item>
             <ion-item>
-              <ion-label position="floating" >Senha</ion-label>
+              <ion-label position="floating">Senha</ion-label>
               <ion-input name="password" type="password" [(ngModel)]="senhaLogin"></ion-input>
             </ion-item>
             <br>

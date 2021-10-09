@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { InicioEntPageRoutingModule } from './inicio-ent-routing.module';
 
 import { InicioEntPage } from './inicio-ent.page';
+import { ModalPentComponent } from 'src/app/componentes/modal-pent/modal-pent.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { InicioEntPage } from './inicio-ent.page';
     IonicModule,
     InicioEntPageRoutingModule
   ],
-  declarations: [InicioEntPage]
+  declarations: [InicioEntPage, ModalPentComponent],
+  entryComponents: [ModalPentComponent]
 })
 export class InicioEntPageModule {}

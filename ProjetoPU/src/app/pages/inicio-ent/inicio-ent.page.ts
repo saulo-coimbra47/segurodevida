@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
+import { ModalPentComponent } from 'src/app/componentes/modal-pent/modal-pent.component';
 
 @Component({
   selector: 'app-inicio-ent',
@@ -8,13 +9,21 @@ import { NavController } from '@ionic/angular';
 })
 export class InicioEntPage implements OnInit {
 
-  constructor(private navCtrl: NavController) { }
+  dadosUsuario: any = {}
+
+  constructor(private modalCtrl: ModalController) {
+    this.dadosUsuario = JSON.parse(localStorage.getItem('dadosUsuario'));
+  }
 
   ngOnInit() {
   }
 
-  gotoPent(){
-    this.navCtrl.navigateForward('main-entregador/tabs/pent');
+  async gotoPent() {
+    let modal = await this.modalCtrl.create({
+      component: ModalPentComponent
+    });
+
+    return await modal.present();
   }
 
 }

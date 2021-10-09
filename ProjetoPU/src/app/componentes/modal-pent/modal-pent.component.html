@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()"><ion-icon name="close"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>
+      Entregas
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-row>
+      <ion-col col-7>
+        <ion-card-header>
+          <strong>CONTEÚDO</strong>
+        </ion-card-header>
+          <ion-card-content>    
+           
+            <div class="info">
+              <div class="info-group">
+                <p><ion-icon name="earth-outline"></ion-icon> Entrega</p>
+                <p><ion-icon name="globe-outline"></ion-icon> Retirada</p>
+              </div>
+              <div class="info-group">
+                <p><ion-icon name="information-circle-outline"></ion-icon> Nome</p>
+                <p><ion-icon name="card-outline"></ion-icon> Valor</p>
+              </div>
+              
+            </div>
+            <div class="buttons">
+              <ion-button><ion-icon name="checkmark-outline"></ion-icon>Aceitar</ion-button>
+              <ion-button><ion-icon name="close-outline"></ion-icon>Recusar</ion-button>
+            </div>
+          </ion-card-content>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
+  
+</ion-content>

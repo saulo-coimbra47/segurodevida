@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-perfil',
@@ -7,9 +9,42 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PerfilPage implements OnInit {
 
-  constructor() { }
+  dadosUsuario: any = {}
+  Bearer_token: any = {}
 
-  ngOnInit() {
+  constructor(private navCtrl: NavController, private apiService: ApiService) {
+   
   }
 
-}
+  ngOnInit() { }
+
+  modelEditSenha() {
+
+  }
+
+  modelEditEndereco() {
+
+  }
+
+  logout() {
+    localStorage.removeItem('dadosUsuario');
+    this.navCtrl.navigateRoot('/');
+
+  }
+
+  // teste(){
+  //   this.apiService.ClientDashboard(this.dadosUsuario.token).then((result) =>{
+  //     console.log(result);
+  //   }).catch((erro) =>{
+  //     console.log(erro);
+  //   })
+
+  // }
+
+
+       
+};
+
+
+
+

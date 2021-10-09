@@ -24,22 +24,18 @@
         <ion-label>
           <h2 class="letras">Nome</h2>
           <div class="answers">
-            <h3>[Nome usuario]</h3>
-            <button>
-              <ion-icon name="create-outline"></ion-icon>
-            </button>
+            <h3>{{dadosUsuario.nome}}</h3>
+            
           </div>
       
         </ion-label>
       </ion-item>
       <ion-item>
         <ion-label>
-          <h2 class="letras">CPF/CNPJ</h2>
+          <h2 class="letras">CPF</h2>
           <div class="answers">
-            <h3>000.000.000-00</h3>
-            <button>
-              <ion-icon name="create-outline"></ion-icon>
-            </button>
+            <h3>{{dadosUsuario.cpf}}</h3>
+            
           </div>
           
         </ion-label>
@@ -48,10 +44,8 @@
         <ion-label>
           <h2 class="letras">E-mail</h2>
           <div class="answers">
-            <h3>araboy@gmail.com</h3>
-            <button>
-              <ion-icon name="create-outline"></ion-icon>
-            </button>
+            <h3>{{dadosUsuario.email}}</h3>
+            
           </div>
          
         </ion-label>
@@ -60,8 +54,8 @@
         <ion-label>
           <h2 class="letras">Senha</h2>
           <div class="answers">
-            <h3>*********</h3>
-            <button>
+            <h3></h3>
+            <button (click)="modelEditSenha()">
               <ion-icon name="create-outline"></ion-icon>
             </button>
           </div>
@@ -71,11 +65,16 @@
         <ion-label>
           <h2>Endereço</h2>
           <div class="answers">
-            <h3>Araçuaí</h3>
-            <button>
+            <h3>Rua, 11, Bairro. Araçuaí-MG</h3>
+            <button (click)="modelEditEndereco()">
               <ion-icon name="create-outline"></ion-icon>
             </button>
           </div>
+        </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <ion-button expand="block" color="danger" (click)="logout()">Sair</ion-button>
         </ion-label>
       </ion-item>
     </ion-list>

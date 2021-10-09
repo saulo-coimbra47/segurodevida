@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
+import { ModalCadComponent } from 'src/app/componentes/modal-cad/modal-cad.component';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-inicial',
@@ -7,14 +9,21 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./inicial.page.scss'],
 })
 export class InicialPage implements OnInit {
+  
+  Bearer_token: any = {}
 
-  constructor(private navCtrl: NavController) { }
+  constructor(private modalCtrl: ModalController, private apiService: ApiService) { 
+  }
 
   ngOnInit() {
   }
 
-  gotoCad() {
-    this.navCtrl.navigateForward('main/tabs/cad');
+  async gotoCad() {
+    let modal = await this.modalCtrl.create({
+      component: ModalCadComponent
+    });
+
+    return await modal.present();
   }
 
 }

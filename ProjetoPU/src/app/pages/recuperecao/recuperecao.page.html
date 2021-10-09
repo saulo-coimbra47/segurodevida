@@ -15,11 +15,15 @@
     </ion-card-header>
     <ion-card-content>
       <ion-item>
-        <ion-label position="floating">E-mail</ion-label>
-        <ion-input name="email"></ion-input>
+        <ion-label position="floating" >E-mail</ion-label>
+        <ion-input name="email" [(ngModel)]="email"></ion-input>
       </ion-item>
       <br>
-      <ion-button expand="block"  color="dark" fill="outline" disabled>Enviar</ion-button>
+      <ion-item>
+        <ion-label>Sou entregador</ion-label>
+        <ion-toggle [(ngModel)]="entregador"></ion-toggle>
+      </ion-item>
+      <ion-button expand="block"  color="dark" fill="outline" (click)="Recuperar()">Enviar</ion-button>
     </ion-card-content>
 
   </ion-card>

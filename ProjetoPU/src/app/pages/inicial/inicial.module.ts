@@ -8,6 +8,7 @@ import { InicialPageRoutingModule } from './inicial-routing.module';
 
 
 import { InicialPage } from './inicial.page';
+import { ModalCadComponent } from 'src/app/componentes/modal-cad/modal-cad.component';
 
 
 
@@ -19,6 +20,7 @@ import { InicialPage } from './inicial.page';
     InicialPageRoutingModule
 
   ],
-  declarations: [InicialPage]
+  declarations: [InicialPage, ModalCadComponent],
+  entryComponents: [ModalCadComponent]
 })
 export class InicialPageModule {}
