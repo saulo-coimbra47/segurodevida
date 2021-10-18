@@ -2,7 +2,7 @@
 
   <div class="content">
     <div class="container top">
-      <ion-segment scrollable (ionChange)="segmentChanged($event)" value="{{slidevalue}}">
+      <ion-segment scrollable (ionChange)="segmentChanged($event)" value="cadastro">
         <ion-segment-button value="cadastro">
           <ion-label>Cadastro</ion-label>
         </ion-segment-button>
@@ -20,9 +20,6 @@
             <ion-card-title>Cadastro</ion-card-title>
             <ion-card-subtitle>Insira seus dados</ion-card-subtitle>
             <br>
-              <ion-item *ngIf="falhaCadastro" color="danger">
-                {{msgCadastro}}
-              </ion-item>
           </ion-card-header>
           <ion-card-content>
             <ion-item>

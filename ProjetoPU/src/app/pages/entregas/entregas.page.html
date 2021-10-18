@@ -1,21 +1,23 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Entregas
-    </ion-title>
+    <ion-title size="large"> Entregas </ion-title>
   </ion-toolbar>
 
-  <ion-content [fullscreen]="true">
-    <ion-header collapse="condense">
-      <ion-toolbar>
-        <ion-title size="large">Entregas</ion-title>
-      </ion-toolbar>
-    </ion-header>
+  <ion-content [fullscreen]="true" class="swiper-no-swiping">
+    <ion-refresher slot="fixed" (ionRefresh)="atualizar($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
 
     <div class="content">
-
       <div class="container top">
-        <ion-segment scrollable (ionChange)="segmentChanged($event)" value="pendentes">
+        <ion-segment
+          scrollable
+          (ionChange)="segmentChanged($event)"
+          value="abertas"
+        >
+          <ion-segment-button value="abertas">
+            <ion-label>Abertas</ion-label>
+          </ion-segment-button>
           <ion-segment-button value="pendentes">
             <ion-label>Pendentes</ion-label>
           </ion-segment-button>
@@ -23,63 +25,103 @@
             <ion-label>Confirmadas</ion-label>
           </ion-segment-button>
         </ion-segment>
-
       </div>
 
-
       <ion-slides>
-
         <ion-slide>
-          <ion-card color="primary">
-            <ion-card-content>
-              <ion-list class="ios list-ios hydrated" inset>
-                <ion-item>
-                  <ion-thumbnail slot="start" class="ios hydrated">
-                    <ion-img src="./assets/aguardando.svg"></ion-img>
-                  </ion-thumbnail>
-                  <ion-label>
-                    <h2>Conteúdo</h2>
-                    <h3>Entrega pendente</h3>
-                    <p>Entregador</p>
-                    <div class="buttons">
+          <div>
+            <ion-card color="primary" *ngFor="let entrega of entregasAbertas">
+              <ion-card-content>
+                <ion-list class="ios list-ios hydrated" inset>
+                  <ion-item>
+                    <ion-thumbnail slot="start" class="ios hydrated">
+                      <ion-img src="./assets/aguardando.svg"></ion-img>
+                    </ion-thumbnail>
 
-                      <ion-button>
-                        <ion-icon name="close-outline"></ion-icon>Cancelar
-                      </ion-button>
-                    </div>
-                  </ion-label>
-                </ion-item>
-                
-              </ion-list>
-            </ion-card-content>
-
-          </ion-card>
+                    <ion-label>
+                      <h2><strong>{{entrega.product}}</strong></h2>
+                      <p>
+                        <strong>De:</strong> <br />
+                        {{entrega.pickup_place}}
+                      </p>
+                      <p></p>
+                      <p>
+                        <strong>Para:</strong> <br />
+                        {{entrega.delivery_place}}
+                      </p>
+                      <p></p>
+                      <div class="buttons">
+                        <ion-button (click)="gotoInfo(entrega)">
+                          <ion-icon name="information-outline"></ion-icon
+                          >Informações
+                        </ion-button>
+                      </div>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </ion-card-content>
+            </ion-card>
+            <br />
+          </div>
         </ion-slide>
 
         <ion-slide>
-          <ion-card color="primary">
-            <ion-card-content>
-              <ion-list class="ios list-ios hydrated" inset>
-      
-                <ion-item>
-                  <ion-thumbnail slot="start" class="ios hydrated">
-                    <ion-img src="./assets/checklist.svg"></ion-img>
-                  </ion-thumbnail>
-                  <ion-label>
-                    <h2>Conteúdo</h2>
-                    <h3>Entrega efetuada</h3>
-                    <p>Nome do recebedor</p>
-                    <p>Nome do entregador</p>
-                  </ion-label>
-      
-                </ion-item>
-              </ion-list>
-            </ion-card-content>
-          </ion-card>
+          <div>
+            <ion-card color="danger" *ngFor="let entrega of entregasPendentes">
+              <ion-card-content>
+                <ion-list class="ios list-ios hydrated" inset>
+                  <ion-item>
+                    <ion-thumbnail slot="start" class="ios hydrated">
+                      <ion-img src="./assets/aguardando.svg"></ion-img>
+                    </ion-thumbnail>
+                    <ion-label>
+                      <h2>{{entrega.product}}</h2>
+                      <h3>De: {{entrega.pickup_place}}</h3>
+                      <p>Para: {{entrega.delivery_place}}</p>
+                      <div class="buttons">
+                        <ion-button (click)="gotoInfo(entrega)" color="danger">
+                          <ion-icon name="information-outline"></ion-icon
+                          >Informações
+                        </ion-button>
+                      </div>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </ion-card-content>
+            </ion-card>
+          </div>
         </ion-slide>
 
+        <ion-slide>
+          <div>
+            <ion-card
+              color="success"
+              *ngFor="let entrega of entregasConcluidas"
+            >
+              <ion-card-content>
+                <ion-list class="ios list-ios hydrated" inset>
+                  <ion-item>
+                    <ion-thumbnail slot="start" class="ios hydrated">
+                      <ion-img src="./assets/checklist.svg"></ion-img>
+                    </ion-thumbnail>
+                    <ion-label>
+                      <h2>{{entrega.product}}</h2>
+                      <h3>De: {{entrega.pickup_place}}</h3>
+                      <p>Para: {{entrega.delivery_place}}</p>
+                      <div class="buttons">
+                        <ion-button (click)="gotoInfo(entrega)" color="success">
+                          <ion-icon name="information-outline"></ion-icon
+                          >Informações
+                        </ion-button>
+                      </div>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+              </ion-card-content>
+            </ion-card>
+          </div>
+        </ion-slide>
       </ion-slides>
-
     </div>
 
     <!-- <div class="tab-wrap">
@@ -162,4 +204,6 @@
     <div class="slide"></div>
 </div>
 
-</ion-content> -->
+</ion-content> --></ion-content
+  ></ion-header
+>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-main',
@@ -6,10 +7,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main.page.scss'],
 })
 export class MainPage implements OnInit {
+ 
 
-  constructor() { }
+  constructor(private navCtrl: NavController) { 
+    
+  }
 
   ngOnInit() {
   }
 
+  gotoInicio(){
+    this.navCtrl.navigateRoot('tabs/inicial');
+  }
 }

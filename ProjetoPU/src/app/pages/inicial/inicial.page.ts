@@ -10,12 +10,18 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class InicialPage implements OnInit {
   
-  Bearer_token: any = {}
+  dadosUsuario: any = {}
+  usuario: string;
+  token: string;
 
-  constructor(private modalCtrl: ModalController, private apiService: ApiService) { 
+  constructor(private modalCtrl: ModalController, private apiService: ApiService) {
+    this.dadosUsuario = JSON.parse(localStorage.getItem('dadosUsuario'));
+    this.usuario = localStorage.getItem('usuario');
+    this.token = localStorage.getItem('token');
   }
 
   ngOnInit() {
+    
   }
 
   async gotoCad() {

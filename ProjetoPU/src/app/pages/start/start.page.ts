@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { async } from '@angular/core/testing';
 
 import { AlertController, IonSlides, NavController, ToastController } from '@ionic/angular';
+import { ValidaForm } from 'src/app/classes/valida-form';
+import { Usuario } from 'src/app/interfaces/usuario';
+import { AuthService } from 'src/app/services/auth.service';
 import { ApiService } from '../../services/api.service';
 
 @Component({
@@ -38,194 +40,28 @@ export class StartPage implements OnInit {
   Dados: any = {};
   falhaLogin: boolean = false;
   msgLogin: string;
-  falhaCadastro: boolean = false;
   msgCadastro: string;
-  slidevalue: string = 'cadastro';
-  Bearer: { };
+  usuarioLogin: Usuario = { email: '', password: '' };
 
+  constructor(private alertCtrl: AlertController,
+    private navCtrl: NavController,
+    private apiService: ApiService,
+    private authService: AuthService,
+    private toastCtrl: ToastController,
+    private form: ValidaForm) {
 
-  constructor(private alertCtrl: AlertController, private navCtrl: NavController, private apiService: ApiService, private toastCtrl: ToastController) { }
+  }
 
   ngOnInit() { }
 
 
-  Registra() {
-    this.validaEmailCadastro();
-    this.validaNome();
-    this.validaCPF();
-    this.validaTelefone2();
-    this.validaSenha();
-    this.validaCidade();
-    this.validaEndereco();
-    if (this.entregador) {
-
-      this.validaPlaca();
-      this.validaCor();
-      this.validaModelo();
-
-
-
-      this.Dados = {
-        cpf: this.cpf,
-        name: this.nome,
-        email: this.emailCadastro,
-        image: '1',
-        cnh_image: '2',
-        phone: this.telefone,
-        password: this.senhaCadastro,
-        password_confirmation: this.senhaCadastro,
-        plaque: this.placa,
-        color: this.cor,
-        model: this.modelo,
-        document: '3',
-        street: this.rua,
-        neighborhood: this.bairro,
-        number: this.numero,
-        city: this.cidade,
-        state: this.UF
-      }
-      this.apiService.RegistraEntregador(this.Dados).then((result) => {
-        console.log(result);
-        this.CadastroRealizado();
-      }).catch((erro) => {
-        console.log(erro['error']);
-        let msg1: string = erro['error'].errors['cpf'];
-        let msg2: string = erro['error'].errors['email'];
-        let msg3: string = erro['error'].errors['plaque'];
-        console.log("msg1: " + msg1);
-        console.log("msg2: " + msg2);
-        console.log("msg3: " + msg3);
-        if (msg1) {
-          if (msg1 == "The cpf field is required.") {
-            this.falhaCadastro = false;
-          }
-          else {
-            this.msgCadastro = erro['error'].errors['cpf'];
-            this.toastMsg(this.msgCadastro);
-          }
-
-        } else if (msg2) {
-          this.msgCadastro = "O e-mail inserido já está em uso.";
-          this.toastMsg(this.msgCadastro);
-        }
-        if (msg3) {
-          this.formatoPlaca();
-        }
-      });
-    } else {
-
-
-      this.Dados = {
-        cpf: this.cpf,
-        name: this.nome,
-        email: this.emailCadastro,
-        image: '1',
-        phone: this.telefone,
-        password: this.senhaCadastro,
-        password_confirmation: this.senhaCadastro,
-        street: this.rua,
-        neighborhood: this.bairro,
-        number: this.numero,
-        city: this.cidade,
-        state: this.UF
-      }
-      this.apiService.RegistraCliente(this.Dados).then((result) => {
-        console.log(result);
-        this.msgCadastro = "Cadastro Realizado!";
-        this.CadastroRealizado();
-      }).catch((erro) => {
-        console.log(erro['error']);
-        let msg1: string = erro['error'].errors['cpf'];
-        let msg2: string = erro['error'].errors['email'];
-        console.log("msg1: " + msg1);
-        console.log("msg2: " + msg2);
-        if (msg1) {
-          if (msg1 == "The cpf field is required.") {
-            this.falhaCadastro = false;
-          }
-          else {
-            this.msgCadastro = erro['error'].errors['cpf'];
-            this.toastMsg(this.msgCadastro);
-          }
-
-        } else if (msg2) {
-          this.msgCadastro = "O e-mail inserido já está em uso.";
-          this.toastMsg(this.msgCadastro);
-        }
-
-      });
-    }
-
-  }
-
-  Login() {
-    this.Dados = {
-      email: this.emailLogin,
-      password: this.senhaLogin
-    }
-    if (this.entregador_login) {
-      this.apiService.LoginEntregador(this.Dados).then((result) => {
-
-        this.apiService.DelivererDashboard(result['Bearer_token']).then((result) =>{
-          console.log(result);
-        }).catch((erro) =>{
-          console.log(erro);
-        })
-
-        // this.gotoMainEntregador();
-      }).catch((erro) => {
-        console.log(erro['error']);
-        this.msgLogin = erro['error'].message;
-        this.toastMsg(this.msgLogin);
-      })
-    } else {
-      this.apiService.LoginCliente(this.Dados).then((result) => {
-        
-        console.log(result['Bearer_token']);
-          
-          this.apiService.ClientDashboard(result['Bearer_token']).then((result) =>{
-            console.log(result);
-          }).catch((erro) =>{
-            console.log(erro);
-          })
-
-          // console.log(result);
-
-          
-        
-      }).catch((erro) => {
-        console.log(erro['error']);
-        this.msgLogin = erro['error'].message;
-        this.toastMsg(this.msgLogin);
-      });
-    }
-
-  }
-
-
   segmentChanged(event: any) {
-    if (event.detail.value === this.slidevalue) {
+    if (event.detail.value === 'cadastro') {
       this.slides.slidePrev();
     } else {
       this.slides.slideNext();
     }
-
-
   }
-
-  gotoRecuperacao() {
-    this.navCtrl.navigateForward('recuperecao');
-  }
-
-  gotoMain() {
-    this.navCtrl.navigateRoot('main/tabs/inicial');
-  }
-
-  gotoMainEntregador() {
-    this.navCtrl.navigateRoot('main-entregador/tabs/inicial');
-  }
-
-
 
   MaskCPF() {
     var X = this.cpf.length;
@@ -247,7 +83,7 @@ export class StartPage implements OnInit {
   }
 
   MaskTel() {
-    var X = this.telefone.length;
+    let X = this.telefone.length;
     switch (X) {
       case 1:
         var num = this.telefone.charAt(0);
@@ -313,106 +149,12 @@ export class StartPage implements OnInit {
 
   }
 
-  async validaTelefone2() {
-    if (this.telefone) {
-      if (this.telefone.length < 15) {
-        const alert = await this.alertCtrl.create({
-          header: 'Telefone inválido',
-          message: 'Preencha corretamente o campo de telefone!',
-          buttons: ['OK']
-        });
-        alert.present();
-      } else {
-        return true;
-      }
-    } else {
-      const alert = await this.alertCtrl.create({
-        header: 'Telefone inválido',
-        message: 'Preencha corretamente o campo de telefone!',
-        buttons: ['OK']
-      });
-      alert.present();
-      return false;
-    }
-
+  validaSenha() {
+    this.form.validaSenha(this.senhaCadastro, this.confirmasenhaCadastro);
   }
 
-  async validaSenha() {
-    if (this.senhaCadastro && this.confirmasenhaCadastro) {
-      if (this.senhaCadastro !== this.confirmasenhaCadastro) {
-        const alert = await this.alertCtrl.create({
-          header: 'Senhas diferentes',
-          message: 'As senhas inforamadas são diferentes!',
-          buttons: ['OK']
-        });
-        alert.present();
-        return false;
-      } else if (this.senhaCadastro.length < 8) {
-        const alert = await this.alertCtrl.create({
-          header: 'Senha curta',
-          message: 'A senha deve possuir no mínimo 8 carácteres!',
-          buttons: ['OK']
-        });
-        alert.present();
-        return false;
-      } else {
-        return true;
-      }
-    } else {
-      const alert = await this.alertCtrl.create({
-        header: 'Senha inválida',
-        message: 'Preencha os campos de senha para continuar!',
-        buttons: ['OK']
-      });
-      alert.present();
-      return false;
-    }
-  }
-
-  async validaEmailCadastro() {
-    if (this.emailCadastro) {
-      return true;
-    } else {
-      const alert = await this.alertCtrl.create({
-        header: 'E-mail inválido',
-        message: 'Informe um e-mail para continuar!',
-        buttons: ['OK']
-      });
-      alert.present();
-      return false;
-    }
-  }
-
-  async validaNome() {
-    if (this.nome) {
-      if (this.nome.length < 8) {
-        const alert = await this.alertCtrl.create({
-          header: 'Nome Curto',
-          message: 'Informe seu nome e sobrenome para continuar!',
-          buttons: ['OK']
-        });
-        alert.present();
-        return false;
-      } else if (!this.nome.includes(" ")) {
-        const alert = await this.alertCtrl.create({
-          header: 'Nome Curto',
-          message: 'Informe seu nome e sobrenome para continuar!',
-          buttons: ['OK']
-        });
-        alert.present();
-        return false;
-      } else {
-        return true;
-      }
-    } else {
-      const alert = await this.alertCtrl.create({
-        header: 'Nome iválido',
-        message: 'Informe seu nome e sobrenome para continuar!',
-        buttons: ['OK']
-      });
-      alert.present();
-      return false;
-    }
+  validaTelefone2() {
+    this.form.validaTelefone2(this.telefone);
   }
 
   async validaCidade() {
@@ -420,7 +162,7 @@ export class StartPage implements OnInit {
       if (this.cidadeUF.length < 6) {
         const alert = await this.alertCtrl.create({
           header: 'Cidada inválida',
-          message: 'Informe o nome da sua cidade para continuar! ' + this.cidadeUF,
+          message: 'Informe o nome da cidade para continuar! ' + this.cidadeUF,
           buttons: ['OK']
         });
         alert.present();
@@ -436,22 +178,27 @@ export class StartPage implements OnInit {
       } else {
         let idx = this.cidadeUF.indexOf("-");
         let idxe = this.cidadeUF.length;
-        this.cidade = this.cidadeUF.substring(0, idx);
-        this.UF = this.cidadeUF.substring(idx + 1, idxe + 1);
-        this.UF = this.UF.toUpperCase();
-        this.cidade = this.cidade.charAt(0).toUpperCase() + this.cidade.slice(1);
+        let cidade = this.cidadeUF.substring(0, idx);
+        let UF = this.cidadeUF.substring(idx + 1, idxe + 1);
+        UF = UF.toUpperCase();
+        cidade = cidade.charAt(0).toUpperCase() + cidade.slice(1);
+
+        this.cidade = cidade,
+          this.UF = UF
+
         return true;
       }
     } else {
       const alert = await this.alertCtrl.create({
         header: 'Cidade iválida',
-        message: 'Informe o nome da sua cidade para continuar! ',
+        message: 'Informe o nome da cidade para continuar! ',
         buttons: ['OK']
       });
       alert.present();
       return false;
     }
   }
+
 
   async validaEndereco() {
     if (this.endereco) {
@@ -472,7 +219,7 @@ export class StartPage implements OnInit {
     } else {
       const alert = await this.alertCtrl.create({
         header: 'Endereço inválido',
-        message: 'Informe o seu endereço corretamente para continuar! ',
+        message: 'Informe o endereço corretamente para continuar! ',
         buttons: ['OK']
       });
       alert.present();
@@ -484,127 +231,201 @@ export class StartPage implements OnInit {
     let idx = this.endereco.indexOf(',');
     let idx2 = this.endereco.lastIndexOf(',');
     let idxe = this.endereco.length;
-    this.rua = this.endereco.substring(0, idx);
-    this.numero = this.endereco.substring(idx + 1, idx2);
-    this.bairro = this.endereco.substring(idx2 + 1, idxe);
-    this.rua = this.rua.charAt(0).toUpperCase() + this.rua.slice(1);
-    if (this.bairro.includes(" ")) {
-      for (let i = 0; i <= this.bairro.length; i++) {
-        if (this.bairro.charAt(i) == " ") {
-          this.bairro = this.bairro.slice(1);
-          this.bairro = this.bairro.charAt(0).toUpperCase() + this.bairro.slice(1);
+    let rua = this.endereco.substring(0, idx);
+    let numero = this.endereco.substring(idx + 1, idx2);
+    let bairro = this.endereco.substring(idx2 + 1, idxe);
+    rua = rua.toUpperCase();
+    if (bairro.includes(" ")) {
+      for (let i = 0; i <= bairro.length; i++) {
+        if (bairro.charAt(i) == " ") {
+          bairro = bairro.slice(1);
+          bairro = bairro.toUpperCase();
         } else {
-          return;
+          break;
         }
       }
     }
-  }
+    this.numero = numero
+    this.rua = rua
+    this.bairro = bairro
 
-  async validaPlaca() {
-    if (this.placa) {
-      this.placa = this.placa.toUpperCase();
-      if (this.placa.length < 7) {
-        const alert = await this.alertCtrl.create({
-          header: 'Formato de placa inválido',
-          message: 'Preencha o campo da placa corretamente!',
-          buttons: ['OK']
-        });
-        alert.present();
-        return false;
-      } else {
-        return true;
-      }
-    } else {
-      const alert = await this.alertCtrl.create({
-        header: 'Formato de placa inválido',
-        message: 'O campo de placa não possui um formato válido!',
-        buttons: ['OK']
-      });
-      alert.present();
-      return false;
-    }
-  }
-  async formatoPlaca() {
-    const alert = await this.alertCtrl.create({
-      header: 'Formato de placa inválido',
-      message: 'O campo de placa não possui um formato válido!',
-      buttons: ['OK']
-    });
-    alert.present();
-    return false;
-  }
-
-  async validaCor() {
-
-    if (this.cor) {
-      if (this.cor.length < 3) {
-        const alert = await this.alertCtrl.create({
-          header: 'Cor inválida',
-          message: 'Preencha o campo de cor do veículo corretamente!',
-          buttons: ['OK']
-        });
-        alert.present();
-        return false;
-      } else {
-        return true;
-      }
-    } else {
-      const alert = await this.alertCtrl.create({
-        header: 'Cor inválida',
-        message: 'Preencha o campo de cor do veículo corretamente!',
-        buttons: ['OK']
-      });
-      alert.present();
-      return false;
-    }
-
-
-  }
-
-  async validaModelo() {
-
-    if (this.modelo) {
-      if (this.modelo.length < 3) {
-        const alert = await this.alertCtrl.create({
-          header: 'Modelo inválido',
-          message: 'Preencha o campo de modelo do veículo corretamente!',
-          buttons: ['OK']
-        });
-        alert.present();
-        return false;
-      } else {
-        return true;
-      }
-    } else {
-      const alert = await this.alertCtrl.create({
-        header: 'Modelo inválido',
-        message: 'Preencha o campo de modelo do veículo corretamente!',
-        buttons: ['OK']
-      });
-      alert.present();
-      return false;
-    }
-
-
-  }
-
-  async CadastroRealizado() {
-    const alert = await this.alertCtrl.create({
-      header: 'Cadastro Realizado',
-      message: 'O seu cadastro foi realizado com sucesso!',
-      buttons: [
-        {
-          text: 'OK',
-          handler: () => {
-            window.location.reload();
-          }
-        }
-      ]
-    });
-    alert.present();
     return true;
+  }
+  formatoPlaca() {
+    return this.form.formatoPlaca();
+  }
+
+  Registra() {
+    this.form.validaEmailCadastro(this.emailCadastro);
+    this.form.validaNome(this.nome);
+    this.validaCPF();
+    this.validaTelefone2();
+    this.validaSenha();
+    this.validaCidade();
+    this.validaEndereco();
+    if (this.entregador) {
+      this.form.validaPlaca(this.placa);
+      this.form.validaCor(this.cor)
+      this.form.validaModelo(this.modelo);
+
+      this.Dados = {
+        cpf: this.cpf,
+        name: this.nome,
+        email: this.emailCadastro,
+        image: '1',
+        cnh_image: '2',
+        phone: this.telefone,
+        password: this.senhaCadastro,
+        password_confirmation: this.senhaCadastro,
+        plaque: this.placa,
+        color: this.cor,
+        model: this.modelo,
+        document: '3',
+        street: this.rua,
+        neighborhood: this.bairro,
+        number: this.numero,
+        city: this.cidade,
+        state: this.UF
+      }
+      console.log(this.Dados);
+      this.apiService.RegistraEntregador(this.Dados).then((result) => {
+        console.log(result);
+        this.form.CadastroRealizado();
+      }).catch((erro) => {
+        console.log(erro['error']);
+        let msg1: string = erro['error'].errors['cpf'];
+        let msg2: string = erro['error'].errors['email'];
+        let msg3: string = erro['error'].errors['plaque'];
+        console.log("msg1: " + msg1);
+        console.log("msg2: " + msg2);
+        console.log("msg3: " + msg3);
+        if (msg1) {
+          if (msg1 == 'Campo cpf é obrigatório.') {
+
+          }
+          else {
+            this.msgCadastro = 'CPF inválido';
+            this.toastMsg(this.msgCadastro);
+          }
+
+        } else if (msg2) {
+          this.msgCadastro = "O e-mail inserido já está em uso.";
+          this.toastMsg(this.msgCadastro);
+        }
+        if (msg3) {
+          this.formatoPlaca();
+        } else {
+          this.toastMsg('O e-mail inserido já está em uso.')
+        }
+      });
+    } else {
+      this.Dados = {
+        cpf: this.cpf,
+        name: this.nome,
+        email: this.emailCadastro,
+        image: '1',
+        phone: this.telefone,
+        password: this.senhaCadastro,
+        password_confirmation: this.senhaCadastro,
+        street: this.rua,
+        neighborhood: this.bairro,
+        number: this.numero,
+        city: this.cidade,
+        state: this.UF
+      }
+      console.log(this.Dados);
+      this.apiService.RegistraCliente(this.Dados).then((result) => {
+        console.log(result);
+        this.msgCadastro = "Cadastro Realizado!";
+        this.form.CadastroRealizado();
+      }).catch((erro) => {
+        console.log(erro['error']);
+        let msg1: string = erro['error'].errors['cpf'];
+        let msg2: string = erro['error'].errors['email'];
+        console.log("msg1: " + msg1);
+        console.log("msg2: " + msg2);
+        if (msg1) {
+          if (msg1 == "Campo cpf é obrigatório.") {
+
+          }
+          else {
+            this.msgCadastro = 'CPF Inválido';
+            this.toastMsg(this.msgCadastro);
+          }
+
+        } else if (msg2) {
+          this.msgCadastro = "O e-mail inserido já está em uso.";
+          this.toastMsg(this.msgCadastro);
+        }
+
+      });
+    }
 
   }
+
+  Login() {
+    this.Dados = {
+      email: this.emailLogin,
+      password: this.senhaLogin
+    }
+    if (this.entregador_login) {
+      this.apiService.LoginEntregador(this.Dados).then((result) => {
+        let token: string = result['Bearer_token'];
+        localStorage.setItem('token', token);
+        localStorage.setItem('usuario', 'entregador');
+        this.authService.setAuth(true);
+        this.apiService.DelivererDashboard(token).then((result) => {
+          console.log(result);
+          this.dadosUsuario = result;
+          localStorage.setItem('dadosUsuario', JSON.stringify(this.dadosUsuario));
+          this.gotoMainEntregador();
+        }).catch((erro) => {
+          console.log(erro);
+        })
+
+      }).catch((erro) => {
+        console.log(erro['error']);
+        this.msgLogin = erro['error'].message;
+        this.toastMsg(this.msgLogin);
+      })
+    } else {
+
+      this.apiService.LoginCliente(this.Dados).then((result) => {
+
+        let token: string = result['Bearer_token'];
+        localStorage.setItem('usuario', 'cliente');
+        localStorage.setItem('token', token);
+        this.authService.setAuth(true);
+        this.apiService.ClientDashboard(token).then((result) => {
+          localStorage.setItem('dadosUsuario', JSON.stringify(result));
+          this.gotoMain();
+        }).catch((erro) => {
+          console.log(erro);
+        });
+
+
+      }).catch((erro) => {
+        this.msgLogin = erro['error'].message;
+        this.toastMsg(this.msgLogin);
+        this.authService.setAuth(false);
+      });
+    }
+
+  }
+
+
+  gotoRecuperacao() {
+    this.navCtrl.navigateForward('recuperecao');
+  }
+
+  gotoMain() {
+    this.navCtrl.navigateRoot('main/tabs/inicial');
+  }
+
+  gotoMainEntregador() {
+    this.navCtrl.navigateRoot('main-entregador/tabs/inicial');
+  }
+
 
 
   async toastMsg(msg: string) {
@@ -626,6 +447,5 @@ export class StartPage implements OnInit {
       toast.present();
     }
   }
-
 
 }

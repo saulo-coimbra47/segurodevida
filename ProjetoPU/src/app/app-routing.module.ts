@@ -1,15 +1,19 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
+import { LoginGuard } from './guards/loginguard.guard';
 
 const routes: Routes = [
-  { path: '', loadChildren: () => import('./pages/start/start.module').then( m => m.StartPageModule)},
+  { path: '',
+  loadChildren: () => import('./pages/start/start.module').then( m => m.StartPageModule)
+  },
   {
     path: 'recuperecao',
     loadChildren: () => import('./pages/recuperecao/recuperecao.module').then( m => m.RecuperecaoPageModule)
   },
   {
     path: 'main',
-    loadChildren: () => import('./main/main.module').then( m => m.MainPageModule)
+    loadChildren: () => import('./main/main.module').then( m => m.MainPageModule), 
   },
   {
     path: 'main-entregador',

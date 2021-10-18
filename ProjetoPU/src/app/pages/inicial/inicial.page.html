@@ -1,8 +1,6 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Início
-    </ion-title>
+    <ion-title> Início </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -12,21 +10,24 @@
       <ion-title size="large">Inicio</ion-title>
     </ion-toolbar>
   </ion-header>
- 
+
   <div class="container">
-    <img src="./assets/photo.svg" alt="">
+    <img src="./assets/photo.svg" alt="" />
     <div class="text">
-      <h1><strong>Bem vindo, !</strong></h1>
+      <h1><strong>Bem vindo, {{dadosUsuario.user.name}}!</strong></h1>
     </div>
-   
+
     <div class="button">
-    
-      <span><ion-button id = "button" button class="button button-positive" (click)="gotoCad()">
-        Solicitar entregador
-        <ion-icon name="chevron-forward-outline"></ion-icon>
-      </ion-button></span>
+      <span
+        ><ion-button
+          id="button"
+          button
+          class="button button-positive"
+          (click)="gotoCad()"
+        >
+          Cadastrar entrega
+          <ion-icon name="chevron-forward-outline"></ion-icon> </ion-button
+      ></span>
     </div>
   </div>
-
-  
 </ion-content>
