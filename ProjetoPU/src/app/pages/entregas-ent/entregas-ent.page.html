@@ -3,7 +3,7 @@
     <ion-title size="large"> Entregas </ion-title>
   </ion-toolbar>
 
-  <ion-content [fullscreen]="true">
+  <ion-content [fullscreen]="true" class="swiper-no-swiping">
     <ion-refresher slot="fixed" (ionRefresh)="atualizar($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>

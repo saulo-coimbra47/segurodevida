@@ -72,21 +72,17 @@ export class ApiService {
 
   LogoutCliente(id, bearer) {
     let token = 'Bearer ' + bearer;
-    let dados = {
-      user: id,
-    };
     let headers = new HttpHeaders({ Authorization: token });
     return this.http
-      .post(`${this.api}logout-client`, 1, { headers: headers })
+      .post(`${this.api}logout-client/${id}`, null, { headers: headers })
       .toPromise();
   }
 
-  LogoutEntregador(dados) {
-    let headers = new HttpHeaders({
-      Authorization: '55|4W7XXq2RGxGwLsAtMZs2qcfF2UKZ6GAMS8wLywhK',
-    });
+  LogoutEntregador(id, bearer) {
+    let token = 'Bearer ' + bearer;
+    let headers = new HttpHeaders({ Authorization: token });
     return this.http
-      .post(`${this.api}logout-deliverer`, dados, { headers: headers })
+      .post(`${this.api}logout-deliverer/${id}`, null, { headers: headers })
       .toPromise();
   }
 

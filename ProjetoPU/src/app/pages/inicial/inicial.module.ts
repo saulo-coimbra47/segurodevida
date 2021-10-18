@@ -6,21 +6,10 @@ import { IonicModule } from '@ionic/angular';
 
 import { InicialPageRoutingModule } from './inicial-routing.module';
 
-
 import { InicialPage } from './inicial.page';
-import { ModalCadComponent } from 'src/app/componentes/modal-cad/modal-cad.component';
-
-
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    InicialPageRoutingModule
-
-  ],
-  declarations: [InicialPage, ModalCadComponent],
-  entryComponents: [ModalCadComponent]
+  imports: [CommonModule, FormsModule, IonicModule, InicialPageRoutingModule],
+  declarations: [InicialPage],
 })
 export class InicialPageModule {}

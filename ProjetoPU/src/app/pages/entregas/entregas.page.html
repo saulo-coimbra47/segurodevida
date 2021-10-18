@@ -67,7 +67,7 @@
 
         <ion-slide>
           <div>
-            <ion-card color="danger" *ngFor="let entrega of entregasPendentes">
+            <ion-card color="warning" *ngFor="let entrega of entregasPendentes">
               <ion-card-content>
                 <ion-list class="ios list-ios hydrated" inset>
                   <ion-item>
@@ -79,7 +79,7 @@
                       <h3>De: {{entrega.pickup_place}}</h3>
                       <p>Para: {{entrega.delivery_place}}</p>
                       <div class="buttons">
-                        <ion-button (click)="gotoInfo(entrega)" color="danger">
+                        <ion-button (click)="gotoInfo(entrega)" color="warning">
                           <ion-icon name="information-outline"></ion-icon
                           >Informações
                         </ion-button>

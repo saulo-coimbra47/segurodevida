@@ -498,31 +498,39 @@ export class PerfilPage implements OnInit {
   }
 
   logout() {
-    // let id : string = JSON.stringify(this.dadosUsuario.user.id);
-    // let user: string = this.usuario;
-    // let token: string = this.token;
+    let id: string = JSON.stringify(this.dadosUsuario.user.id);
+    let user: string = this.usuario;
+    let token: string = this.token;
 
-    // if (user == 'cliente') {
-
-    //   this.apiService.LogoutCliente(id, token).then((result) => {
-    //     console.log(result);
-    //   }).catch((erro) => {
-    //     console.log(erro);
-    //   })
-    // } else {
-    //   this.apiService.LogoutEntregador(id).then((result) => {
-    //     console.log(result);
-
-    //   }).catch((erro) => {
-    //     console.log(erro);
-    //   })
-    // }
-
-    localStorage.removeItem('dadosUsuario');
-    localStorage.removeItem('usuario');
-    localStorage.removeItem('token');
-    localStorage.removeItem('entrega');
-    this.navCtrl.navigateRoot('/');
+    if (user == 'cliente') {
+      this.apiService
+        .LogoutCliente(id, token)
+        .then((result) => {
+          console.log(result);
+          localStorage.removeItem('dadosUsuario');
+          localStorage.removeItem('usuario');
+          localStorage.removeItem('token');
+          localStorage.removeItem('entrega');
+          this.navCtrl.navigateRoot('/');
+        })
+        .catch((erro) => {
+          console.log(erro);
+        });
+    } else {
+      this.apiService
+        .LogoutEntregador(id, token)
+        .then((result) => {
+          console.log(result);
+          localStorage.removeItem('dadosUsuario');
+          localStorage.removeItem('usuario');
+          localStorage.removeItem('token');
+          localStorage.removeItem('entrega');
+          this.navCtrl.navigateRoot('/');
+        })
+        .catch((erro) => {
+          console.log(erro);
+        });
+    }
   }
 
   validaUsuario() {
